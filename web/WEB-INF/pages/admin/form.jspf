@@ -1,0 +1,48 @@
+<form method="post">
+    <div class="form-row">
+        <label for="tariffname"><fmt:message key="tariff_form.tariffname"/></label>
+        <input id="tariffname" name="tariffname" type="text" value="${tariff.tariffname}">
+    </div>
+
+    <div class="form-row">
+        <label for="type"><fmt:message key="tariff_form.type"/></label>
+        <select id="type" name="type">
+            <c:forEach var="type" items="${tariffTypes}">
+                <option value="${type.id}" <c:if test="${type.id eq tariff.type.id}"> selected</c:if>>${type}</option>
+            </c:forEach>
+
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="details"><fmt:message key="tariff_form.details"/></label>
+        <textarea rows="15" id="details" name="details">${tariff.details}</textarea>
+    </div>
+
+    <div class="form-row">
+        <label for="hot"><fmt:message key="tariff_form.hot"/></label>
+        <input id="hot" type="checkbox" name="hot" value="1" <c:if test="${tariff.hot eq true}">checked</c:if>/>
+    </div>
+
+    <div class="form-row">
+        <c:choose>
+            <c:when test="${tariff.price > 0}">
+                <c:set var="price" value="${tariff.price}"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="price" value="500"/>
+            </c:otherwise>
+        </c:choose>
+        <label for="price"><fmt:message key="tariff_form.price"/></label>
+        <input id="price" type="number" name="price" value="${price}" step="0.10"/>
+    </div>
+
+    <div class="form-row">
+        <label for="discount"><fmt:message key="tariff_form.discount"/>(%)</label>
+        <input id="discount" type="number" name="regular_discount" value="${tariff.regularDiscount}"/>
+    </div>
+
+    <input class="ml135px btn" name="submit" type="submit" value="<fmt:message key="form_submit"/>"/>
+    <a href="ifuture?action=manager&lang=${locale}"><fmt:message key="tariff_form.back"/></a>
+
+</form>

@@ -1,0 +1,54 @@
+<%@ taglib uri="/WEB-INF/tld/customDateTimeTag.tld" prefix="cdt" %>
+
+<div id="header">
+
+    <ul class="language_switcher">
+        <c:forEach items="${locales}" var="locale">
+            <li class="lang lang-${locale.value}"><a href="index.jsp?lang=${locale.value}">${locale.key}</a></li>
+        </c:forEach>
+    </ul>
+
+    <c:choose>
+        <c:when test="${not empty user}">
+            <c:set var="rolename" value="${user.role.rolename}"/>
+            <p><fmt:message key="user.welcome"><fmt:param value="${user.username}"/> </fmt:message> [<a href="ifuture?action=logout&lang=${locale}"><fmt:message key="user.logout"/></a>]</p>
+        </c:when>
+
+        <c:otherwise>
+            <p><%--<fmt:message key="guest.welcome"/>--%> [<a href="ifuture?action=login&lang=${locale}"><fmt:message key="user.login"/></a>]
+                / [<a href="ifuture?action=newUser&lang=${locale}"><fmt:message key="guest.registration"/></a>]
+            </p>
+        </c:otherwise>
+    </c:choose> <br>
+    <p align="right"><fmt:message key="current.date"/><cdt:currentDate format=" dd.MM.yyyy"/></p> <%--Custom tag--%>
+</div>
+
+<div id="style" class="content">
+    <a href="ifuture?lang=${locale}"><img class="main-logo" src="../images/logo.png"></a>
+    <h1 class="project-name"><a class="non-decoration" href="ifuture?action=tariffs&lang=${locale}"><span>IFuture </span> <span class="span2">Internet Provider</span></a></h1>
+
+    <ul class="menu">
+        <li><a href="ifuture?lang=${locale}"><fmt:message key="menu.page.main"/></a></li>
+        <li><a href="ifuture?action=tariffs&lang=${locale}"><fmt:message key="menu.page.tariffs"/></a></li>
+        <c:if test="${rolename eq 'admin'}">
+        <li><a href="ifuture?action=manager&lang=${locale}"><fmt:message key="menu.page.manager"/></a></li>
+            <li><a href="ifuture?action=orders&lang=${locale}"><fmt:message key="menu.page.orders"/></a></li>
+        </c:if>
+        <c:if test="${rolename eq 'client'}">
+            <li><a href="ifuture?action=account&lang=${locale}"><fmt:message key="menu.page.account"/></a></li>
+        </c:if>
+
+    </ul>
+</div>
+
+<div class="hr"></div>
+
+    <div class="content">
+
+    <c:forEach items="${locales}" var="locale">
+
+    </c:forEach>
+
+
+    </div>
+
