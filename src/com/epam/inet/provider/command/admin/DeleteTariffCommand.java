@@ -7,6 +7,8 @@ import com.epam.inet.provider.dao.TariffDao;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.resource.MessageManager;
+import com.epam.inet.provider.service.TariffService;
+import com.epam.inet.provider.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,18 +32,18 @@ public class DeleteTariffCommand extends AdminCommand {
 
         if (paramId != null){
             Locale locale = LocaleManager.INSTANCE.resolveLocale(request);
+//            TariffService tariffService = TariffService.getInstance();
             try{
                 int id = Integer.parseInt(paramId);
-                TariffDao dao = TariffDao.getInstance();
-                if (dao.delete(id)){
-                    List<Tariff> tariffs = dao.findAll();
+//                TariffDao dao = TariffDao.getInstance();
+                if (tariffService.deleteTariffPlan(id)){
+//                    List<Tariff> tariffs = dao.findAll();
+                    List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
                     session.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
                     session.setAttribute(PARAMETER_NOTIFICATION, MessageManager.INSTANCE.getMessage(MESSAGE_DB_DELETE_SUCCESS, locale));
                     return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
                 }
-            } catch (NumberFormatException e){
-                throw new CommandException(e);
-            } catch (DaoException e) {
+            } catch (ServiceException e) {
                 throw new CommandException(e);
             }
         }

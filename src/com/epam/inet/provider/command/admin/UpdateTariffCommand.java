@@ -2,6 +2,7 @@ package com.epam.inet.provider.command.admin;
 
 import com.epam.inet.provider.command.util.TariffBuilder;
 import com.epam.inet.provider.command.AdminCommand;
+import com.epam.inet.provider.dao.DaoFactory;
 import com.epam.inet.provider.dao.TariffDao;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.TariffType;
@@ -34,8 +35,9 @@ public class UpdateTariffCommand extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         request.setAttribute(ATTRIBUTE_TARIFF_TYPE, TariffType.values());
         Locale locale = LocaleManager.INSTANCE.resolveLocale(request);
-        TariffDao dao = TariffDao.getInstance();
-        Tariff tariff = new Tariff();
+        DaoFactory daoFactory = DaoFactory.getDaoFactory();
+        TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
+        Tariff tariff = null;
         int id;
         try {
             id = Integer.parseInt(request.getParameter(ID));
@@ -48,8 +50,8 @@ public class UpdateTariffCommand extends AdminCommand {
             TariffBuilder tariffBuilder = new TariffBuilder();
             try {
                 tariffBuilder.build(request.getParameterMap(), tariff);
-                if (TariffService.getInstance().updateTariffPlan(tariff)) {
-                    List<Tariff> tariffs = TariffService.getInstance().fetchAllTariffPlans();
+                if (tariffService.updateTariffPlan(tariff)) {
+                    List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
                     request.setAttribute(PARAMETER_TARIFF, tariffs);
                     return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
                 }
@@ -61,9 +63,8 @@ public class UpdateTariffCommand extends AdminCommand {
             }
         } else {
             try {
-                tariff = dao.findById(id);
+                tariff = tariffDao.findById(id);
             } catch (DaoException e) {
-//                return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
                 throw new CommandException(e);
             }
         }

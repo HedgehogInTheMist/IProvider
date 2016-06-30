@@ -92,8 +92,17 @@ public class User extends Entity {
         return result;
     }
 
-    @Override
+/*    @Override
     public String toString(){
         return String.format("User[id: %d, username: %s, role: %s]", getId(), getUsername(), getRole().getRolename());
+    }*/
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

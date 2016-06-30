@@ -11,8 +11,8 @@ import static com.epam.inet.provider.util.Constants.*;
 public abstract class AdminCommand extends ActionCommand{
 
     /**
-     * Only admin has access to this command
-     * @param user can be null
+     * Checks access level. Only admin has access to this command
+     * @param user - User entity, can be null
      * @return
      */
     @Override
@@ -23,7 +23,6 @@ public abstract class AdminCommand extends ActionCommand{
                 return true;
             }
         }
-
         return false;
     }
 

@@ -25,15 +25,15 @@
     </div>
 
     <div class="actions">
-        <a class="btn" href="ifuture?action=order&id=${tariff.id}&confirm=1&lang=${locale}"><fmt:message key="order.prepare.purchase"/></a>
+        <a class="btn" href="ifuture?action=order&id=${tariff.id}&confirm=yes&lang=${locale}"><fmt:message key="order.prepare.purchase"/></a>
         <a href="ifuture?action=tariffs&lang=${locale}"><fmt:message key="order.prepare.cancel"/></a>
     </div>
 
     <%--<form action="ifuture" method="POST">
         <div class="actions">
-        <input type="hidden" name="c"   value="order" />
+        <input type="hidden" name="action"   value="order" />
         <input type="hidden" name="id"   value="${tariff.id}" />
-        <input type="hidden" name="confirm"   value="1" />
+        <input type="hidden" name="confirm"   value="yes" />
         <input type="hidden" name="lang"   value="${locale}" />
         <button type="submit"><fmt:message key="order.prepare.purchase"/></button>
             <a href="ifuture?action=tariffs&lang=${locale}"><fmt:message key="order.prepare.cancel"/></a>

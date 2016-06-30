@@ -30,17 +30,7 @@ public class OrderDao extends AbstractDao<Integer, Order> {
     private final String CREATE_ORDER = "INSERT INTO `order` (service_id, client_id, amount, order_date) VALUES (?, ?, ?, ?)";
     private final String SELECT_ORDERS = "SELECT order.id, order.paid, user.username, tariff.tariffname, order.amount, order.order_date FROM `order` JOIN `tariff` ON order.service_id = tariff.id JOIN user ON user.id = order.client_id /*where tour_purchase.paid=0*/"; // запрос для админа
 
-    private OrderDao(){}
-
-    private static OrderDao instance;
-
-    public synchronized static OrderDao getInstance(){
-        if (instance == null){
-            instance = new OrderDao();
-        }
-        LOGGER.info(MsgManager.getProperty(LOG_MSG_ORDER_DAO_INIT));
-        return instance;
-    }
+    public OrderDao(){}
 
     /**
      * Fetches all orders
@@ -193,7 +183,6 @@ public class OrderDao extends AbstractDao<Integer, Order> {
      * Updates tariff's records if their where paid
      * @param id
      * @param paid
-     * @throws DAOLogicalException
      * @throws DaoException
      */
     public void updatePaid(Integer id, boolean paid) throws  DaoException {
@@ -232,7 +221,6 @@ public class OrderDao extends AbstractDao<Integer, Order> {
      * Updates order record
      * @param entity
      * @return
-     * @throws DAOLogicalException
      * @throws DaoException
      */
     @Override
@@ -244,7 +232,6 @@ public class OrderDao extends AbstractDao<Integer, Order> {
      * Fetches order by id
      * @param id
      * @return
-     * @throws DAOLogicalException
      * @throws DaoException
      */
     @Override

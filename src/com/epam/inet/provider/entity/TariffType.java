@@ -46,4 +46,6 @@ public enum TariffType {
 	public String getDisplayName(){
 		return this.name().toLowerCase();
 	}
+
+
 }

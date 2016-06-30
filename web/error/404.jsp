@@ -15,5 +15,7 @@
 <h1>${title}</h1>
 <p>${message}</p>
 <a href="${pageContext.request.contextPath}/index.jsp?lang=${locale}">${back}</a>
+
+<img src="${pageContext.servletContext.contextPath}/images/error/error404ru.png" class="img-responsive" alt="error404">
 </body>
 </html>

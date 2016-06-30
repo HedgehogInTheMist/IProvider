@@ -1,9 +1,7 @@
 package com.epam.inet.provider.service;
 
-import com.epam.inet.provider.dao.UserDao;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.dao.exception.DaoException;
-import com.epam.inet.provider.resource.MsgManager;
 import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.LogManager;
@@ -17,24 +15,15 @@ import static com.epam.inet.provider.util.Constants.*;
 /**
  * Performs authentication
  */
-public class AuthenticationService {
+public class AuthenticationService extends Service {
 
     public static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
 
     public static final String PARAMETER_SESSION_USER = "user";
 
-    private AuthenticationService(){}
+    public AuthenticationService() {
 
-    private static AuthenticationService instance;
-
-    public synchronized static AuthenticationService getInstance(){
-        if (instance == null){
-            instance = new AuthenticationService();
-        }
-        LOGGER.info(MsgManager.getProperty(LOG_MSG_AUTH_SERVICE_INIT));
-        return instance;
     }
-
 
     /**
      * Authenticate user
@@ -42,16 +31,17 @@ public class AuthenticationService {
      * @param password
      * @throws ServiceException
      */
-    public static User authenticate(String login, String password) throws ServiceException {
+    public User authenticate(String login, String password) throws ServiceException {
         if (login != null && password != null){
             String hash = DigestUtils.md5Hex(password);
-            UserDao dao = UserDao.getInstance();
+//            UserDao dao = UserDao.getInstance();
+
             try {
-                User user = dao.findByLoginAndPassword(login, hash);
+                User user = userDao.findByLoginAndPassword(login, hash);
 				return user;
             } catch (DaoException e) {
-                LOGGER.info(ERROR_SEREVICE_AUTHENTIFICATION, e);
-                throw new ServiceException(ERROR_SEREVICE_AUTHENTIFICATION, e);
+                LOGGER.info(EXC_SERVICE_ERROR_AUTHENTIFICATION, e);
+                throw new ServiceException(EXC_SERVICE_ERROR_AUTHENTIFICATION, e);
             }
         }
         return null;

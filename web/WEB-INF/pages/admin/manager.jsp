@@ -41,13 +41,13 @@
 
 <div class="content">
 
-    <c:if test="${not empty user}">
+    <%--<c:if test="${not empty user}">
         <p><fmt:message key="info.auth.success"/> </p>
-    </c:if>
+    </c:if>--%>
 
 
     <div class="actions">
-        <a class="btn" href="ifuture?action=add_tariff&lang=${locale}" data-spy="affix" data-offset-top="205"><fmt:message key="tariff_table.add" /></a>
+        <a class="btn" href="ifuture?action=add_tariff&approve2=yes&lang=${locale}" data-spy="affix" data-offset-top="205"><fmt:message key="tariff_table.add" /></a>
     </div>
 
     <c:forEach items="${tariffs}" var="tariff">
@@ -69,7 +69,7 @@
     </c:forEach>
 
     <div class="actions">
-        <a class="btn" href="ifuture?action=add_tariff&lang=${locale}"><fmt:message key="tariff_table.add"/></a>
+        <a class="btn" href="ifuture?action=add_tariff&approve2=yes&lang=${locale}"><fmt:message key="tariff_table.add"/></a>
     </div>
 
 

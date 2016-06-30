@@ -1,5 +1,6 @@
 package com.epam.inet.provider.command.client;
 
+import com.epam.inet.provider.dao.DaoFactory;
 import com.epam.inet.provider.service.AuthenticationService;
 import com.epam.inet.provider.command.ClientCommand;
 import com.epam.inet.provider.dao.OrderDao;
@@ -25,7 +26,11 @@ public class AccountCommand extends ClientCommand {
         User user = AuthenticationService.user(request);
 
         try {
-            List<Order> orders = OrderDao.getInstance().findOrdersForUser(user);
+            DaoFactory daoFactory = DaoFactory.getDaoFactory();
+            OrderDao orderDao = (OrderDao) daoFactory.getDao(DaoFactory.DaoType.ORDER_DAO);
+            List<Order> orders = orderDao.findOrdersForUser(user);
+
+//            List<Order> orders = OrderDao.getInstance().findOrdersForUser(user);
             request.setAttribute(ATTRIBUTE_ORDERS, orders);
         } catch (DaoException e) {
             throw new CommandException(e);

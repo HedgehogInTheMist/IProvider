@@ -71,4 +71,22 @@
 
     </jsp-config>
 
+    <servlet>
+        <servlet-name>orderComplete</servlet-name>
+        <jsp-file>/WEB-INF/pages/client/complete.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>orderComplete</servlet-name>
+        <url-pattern>/OrderComplete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>tariffSupplement</servlet-name>
+        <jsp-file>/WEB-INF/pages/admin/tariffSupplement.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tariffSupplement</servlet-name>
+        <url-pattern>/SupplementDone</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -11,7 +11,7 @@ import javax.servlet.ServletRequest;
 import java.util.HashMap;
 
 /**
- * Command center helps to deal with commands comming from pages.
+ * Command center helps to deal with commands coming from pages.
  * Created by Hedgehog on 20.05.2016
  */
 public enum CommandHelper {

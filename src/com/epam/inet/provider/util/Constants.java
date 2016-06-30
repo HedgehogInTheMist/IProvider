@@ -22,7 +22,8 @@ public final class Constants {
     public static final String MESSAGE_DB_CREATE_SUCCESS = "info.db.create_success";
     public static final String MESSAGE_INVALID_DATA = "add_tariff.invalid_form_data";
     public static final String MESSAGE_INVALID_EXCEPTION = "add_tariff.invalid_form_data";
-    public static final String MESSAGE_INVALID_UPDATE_DATA = "update.tariff.invalid.form.data";
+    public static final String MESSAGE_INVALID_UPDATE_DATA = "Some fields are inconsistent. Correct them, and repeat";
+    public static final String PATH_TO_SUPPLEMENT_DONE = "/SupplementDone";
 
     // Delete command
     public static final String ID = "id";
@@ -64,6 +65,7 @@ public final class Constants {
     public static final String MSG_ERROR_LOGIN = "jsp.message.error.login";
     public static final String LOG_MSG_INCORRECT_LOGIN = "logger.message.login.command.incorrect.login.or.password";
     public static final String ATTRIBUT_SUCCESS_AUTH = "info.auth.success";
+    public static final String LOGGER_MSG_INCORRECT_LOGIN = "logger.message.incorrect.login";
 
     // ViewTariff command
     public static final String PATH_TARIFFS_PAGE = "path.page.tariffs";
@@ -160,12 +162,13 @@ public final class Constants {
     public static final String MSG_INCORRECT_LOGIN_PASSWORD = "auth.message.incorrect.login";
 
     //  Service tier
-    public static final String ERROR_SEREVICE_AUTHENTIFICATION = "Error authentification user on service tier";
     public static final String LOG_MSG_TARIFSERVICE_INIT = "logger.message.tariff.service.init";
-    public static final String LOG_MSG_TARIFF_SERVICE = "logger.message.tariff.error";
+    public static final String LOG_MSG_TARIFF_SERVICE = "Inconsistent data's come from Dao tier.";
     public static final String LOG_MSG_AUTH_SERVICE_INIT = "logger.message.authentication.service.init";
     public static final String LOG_MSG_ORDER_SERVICE_INIT = "logger.message.order.service.init";
-    public static final String EXC_MSG_WRONG_DAO_DATA = "service.exception.message";
+    public static final String EXC_MSG_WRONG_DAO_DATA = "Service got inconsistent data from DAO tier. Exception thrown to Command tier.";
+    public static final String EXC_SERVICE_ERROR_MSG = "Unexpected error on service tier. Cant't check isRegularClient or not";
+    public static final String EXC_SERVICE_ERROR_AUTHENTIFICATION = "Error authentification user on service tier";
 
 
     //  Logger messages

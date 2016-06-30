@@ -43,6 +43,6 @@
     </div>
 
     <input class="ml135px btn" name="submit" type="submit" value="<fmt:message key="form_submit"/>"/>
-    <a href="ifuture?action=manager&lang=${locale}"><fmt:message key="tariff_form.back"/></a>
+    <a href="ifuture?action=manager&approve=yes&lang=${locale}"><fmt:message key="tariff_form.back"/></a>
 
 </form>

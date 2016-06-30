@@ -55,7 +55,7 @@
         </c:if>
 
         <p align="center"><fmt:message key="registration.user.login"/>:<br>
-            <input type="text" name="login" value=""/>
+            <input type="text" name="login" value="${lastEnteredLogin}"/>
 
 
             <br><br><fmt:message key="registration.user.password"/>:<br>

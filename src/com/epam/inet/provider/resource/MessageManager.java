@@ -8,11 +8,12 @@ import java.util.ResourceBundle;
 
 /**
  * Message manager
+ * Created by Hedgehog
  */
 public enum MessageManager {
     INSTANCE;
 
-    private static final String BUNDLE_NAME = "properties.message";
+    private static final String BUNDLE_NAME = "message";
     private ResourceBundle bundle = null;
     private Locale lastLocale = null;
     private LocaleManager localeManager = LocaleManager.INSTANCE;
@@ -29,7 +30,8 @@ public enum MessageManager {
                 return bundle.getString(key);
             } else{
                 Logger.getRootLogger().debug("Message manager reinitialized bundle");
-                bundle = ResourceBundle.getBundle("properties.database", locale);
+//                bundle = ResourceBundle.getBundle("properties.database", locale);
+                bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
                 lastLocale = locale;
             }
         } catch (MissingResourceException e){

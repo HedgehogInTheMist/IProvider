@@ -1,55 +1,38 @@
 package com.epam.inet.provider.service;
 
-import com.epam.inet.provider.dao.UserDao;
-import com.epam.inet.provider.dao.pool.ConnectionPool;
+import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.entity.Role;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.dao.exception.ConnectionPoolException;
-import com.epam.inet.provider.dao.exception.DaoException;
+import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static com.epam.inet.provider.util.Constants.*;
 
 /**
- *  ClientService singleton
+ * ClientService singleton
  */
-public class ClientService {
+public class ClientService extends Service {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
 
-    private ClientService(){
-
+    public ClientService() {
     }
 
-    private static ClientService instance;
+    public boolean isRegularClient(User user) throws ServiceException {
 
-    public synchronized static ClientService getInstance(){
-        if (instance == null){
-            instance = new ClientService();
-        }
-        LOGGER.info(LOG_MSG_CLIENT_SERVICE);
-        return instance;
-    }
-
-    public static boolean isRegularClient(User user) throws DaoException {
-
-        if (user != null){
-            if (user.getRole().getRolename().equals(Role.ROLE_CLIENT)){
-                return UserDao.getInstance().isRegular(user.getId());
+        if (user != null) {
+            if (user.getRole().getRolename().equals(Role.ROLE_CLIENT)) {
+                try {
+                    return userDao.isRegular(user.getId());
+                } catch (DaoException e) {
+                    throw new ServiceException(EXC_SERVICE_ERROR_MSG);
+                }
             }
             return false;
         }
         return false;
     }
-
-
-
 
 
 }

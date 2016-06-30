@@ -1,6 +1,7 @@
 package com.epam.inet.provider.command.client;
 
 import com.epam.inet.provider.command.ActionCommand;
+import com.epam.inet.provider.dao.DaoFactory;
 import com.epam.inet.provider.dao.UserDao;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.command.exception.CommandException;
@@ -38,8 +39,11 @@ public class RegistrationCommand extends ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String page = null;
         user = new User();
-        userDao = UserDao.getInstance();
-//        userDao = new UserDao();
+
+        DaoFactory daoFactory = DaoFactory.getDaoFactory();
+        UserDao userDao = (UserDao) daoFactory.getDao(DaoFactory.DaoType.USER_DAO);
+//        userDao = UserDao.getInstance();
+
         HttpSession session = request.getSession();
         if (buildNewUser(request)) {
             try {

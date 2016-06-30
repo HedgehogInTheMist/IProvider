@@ -1,6 +1,7 @@
 package com.epam.inet.provider.command.admin;
 
 import com.epam.inet.provider.command.AdminCommand;
+import com.epam.inet.provider.dao.DaoFactory;
 import com.epam.inet.provider.dao.TariffDao;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.command.exception.CommandException;
@@ -29,9 +30,12 @@ public class ManagerCommand extends AdminCommand {
      */
     @Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        TariffDao dao = TariffDao.getInstance();
+//        TariffDao dao = TariffDao.getInstance();
+
+        DaoFactory daoFactory = DaoFactory.getDaoFactory();
+        TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
         try {
-            List<Tariff> tariffs = dao.findAll();
+            List<Tariff> tariffs = tariffDao.findAll();
             request.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
         } catch (DaoException e) {
             throw new CommandException(e);

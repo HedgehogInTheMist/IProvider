@@ -1,10 +1,10 @@
 package com.epam.inet.provider.dao;
 
+import com.epam.inet.provider.dao.exception.ConnectionPoolException;
+import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.dao.pool.ConnectionPool;
 import com.epam.inet.provider.entity.Role;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.dao.exception.ConnectionPoolException;
-import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.resource.MsgManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
@@ -19,8 +19,8 @@ import java.util.List;
 import static com.epam.inet.provider.util.Constants.*;
 
 /**
- *  Deals with a bunch of methods performing UserDao functions
- *  Created by Hedgehog on 15.05.2016.
+ * Deals with a bunch of methods performing UserDao functions
+ * Created by Hedgehog on 15.05.2016.
  */
 public class UserDao extends AbstractDao<Integer, User> {
 
@@ -29,7 +29,7 @@ public class UserDao extends AbstractDao<Integer, User> {
     private static final String SELECT_ALL = "SELECT user.id, user.username, user.password, user.role_id, role.rolename FROM user JOIN role ON user.role_id = role.id";
     private static final String FIND_BY_ID = "SELECT user.id, user.username, user.password, user.role_id, role.rolename FROM user JOIN role ON user.role_id = role.id WHERE user.id = ?";
     private static final String FIND_BY_LOGIN_PASSWORD = "SELECT user.id, user.username, user.password, user.role_id, role.rolename FROM user JOIN role ON user.role_id = role.id WHERE user.username = ? AND user.password = ?";
-    private static final String DELETE_BY_ID = "DELETE user WHERE id = ?";
+    private static final String DELETE_BY_ID = "DELETE FROM user WHERE id = ?";
     private static final String CREATE_USER = "INSERT INTO user (username, password, role_id) VALUES(?, ?, ?)";
     private static final String UPDATE_USER = "UPDATE users SET username = ?, password = ?, role_id = ? WHERE id = ?";
 //    private static final String USER_NOT_FOUND = "User not found";
@@ -40,16 +40,7 @@ public class UserDao extends AbstractDao<Integer, User> {
     private static final String SQL_ERROR = "Sql error";
     private static final String NO_CONNECTION_MESSAGE = "Unable to get connection";
 
-    private UserDao(){}
-
-    private static UserDao instance;
-
-    public synchronized static UserDao getInstance(){
-        if (instance == null){
-            instance = new UserDao();
-        }
-        LOGGER.info(MsgManager.getProperty(LOG_MSG_USER_DAO_INIT));
-        return instance;
+    public UserDao() {
     }
 
     /**
@@ -351,6 +342,7 @@ public class UserDao extends AbstractDao<Integer, User> {
 
     /**
      * Fetches user by username from DB
+     *
      * @param username
      * @return
      * @throws DaoException
@@ -402,16 +394,17 @@ public class UserDao extends AbstractDao<Integer, User> {
 
     /**
      * Checks on weather user is regular client or not
+     *
      * @param id
      * @return
      * @throws DaoException
      */
-    public static boolean isRegular(Integer id) throws DaoException {
-        if (id != null){
+    public boolean isRegular(Integer id) throws DaoException {
+        if (id != null) {
             ConnectionPool connectionPool = null;
-            try{
+            try {
                 connectionPool = ConnectionPool.getInstance();
-            } catch (ConnectionPoolException e){
+            } catch (ConnectionPoolException e) {
                 throw new DaoException(e);
             }
             Connection connection = connectionPool.getConnection();
@@ -422,9 +415,9 @@ public class UserDao extends AbstractDao<Integer, User> {
                     statement = connection.prepareStatement(SQL_QUERY);
                     statement.setInt(1, id);
                     resultSet = statement.executeQuery();
-                    if(resultSet.next()){
+                    if (resultSet.next()) {
                         return resultSet.getBoolean(IS_REGULAR);
-                    } else{
+                    } else {
                         throw new DaoException(SQL_ERROR);
                     }
                 } catch (SQLException e) {
@@ -433,7 +426,7 @@ public class UserDao extends AbstractDao<Integer, User> {
                     connectionPool.closeResources(statement, resultSet);
                     connectionPool.release(connection);
                 }
-            } else{
+            } else {
                 throw new DaoException(NO_CONNECTION_MESSAGE);
             }
         }

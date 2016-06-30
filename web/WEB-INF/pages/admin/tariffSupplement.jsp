@@ -8,7 +8,7 @@
 <c:set var="user" scope="page" value="${auth:user(pageContext.request)}"/>
 <html>
 <head>
-    <title><fmt:message key="order.success.title"/></title>
+    <title><fmt:message key="tariff.supplement.success.title"/></title>
     <link rel="stylesheet" href="../../../css/style.css"/>
 </head>
 <body>
@@ -18,22 +18,29 @@
 
 <div class="content">
     <div class="order-complete">
-        <h1><fmt:message key="order.success.title"/></h1>
-        <p><fmt:message key="order.success.thanks">
+        <h1><fmt:message key="tariff.added.success.title"/></h1>
+        <p><fmt:message key="tariff.added.success.message">
             <fmt:param value="${tariff.tariffname}"/>
+            <fmt:param value="${tariffTypes}"/>
+            <%--<fmt:param value="${tariffType}"/>--%>
 
+<%--
             <jsp:useBean id="tariffName" class="com.epam.inet.provider.entity.Tariff"/>
             <jsp:setProperty name="tariffName" property="tariffname" value="${tariff.tariffname}"/>
             <jsp:getProperty name="tariffName" property="tariffname"/>
 
 
 
+            Congrats! You've just added new tariff plan!
+            <a href="ifuture?action=manager&lang=${locale}"><fmt:message key="tariff_form.back"/></a>
+--%>
+
 
 
 
         </fmt:message>
         </p>
-        <a href="ifuture?action=account&lang=${locale}"><fmt:message key="order.success.goto"/></a>
+        <a href="ifuture?action=manager&lang=${locale}"><fmt:message key="order.success.goto"/></a>
     </div>
 
 </div>

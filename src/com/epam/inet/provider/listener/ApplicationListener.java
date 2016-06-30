@@ -28,10 +28,10 @@ public class ApplicationListener implements ServletContextListener,
 
     public void contextInitialized(ServletContextEvent sce) {
 
-        ServletContext context = sce.getServletContext();
+    /*    ServletContext context = sce.getServletContext();
         context.setAttribute(LOCALES, LocaleManager.INSTANCE.getLocales());
 
-        Locale.setDefault(Locale.ENGLISH);
+        Locale.setDefault(Locale.ENGLISH);*/
 
     }
 
@@ -44,8 +44,11 @@ public class ApplicationListener implements ServletContextListener,
         }
     }
 
-    public void sessionCreated(HttpSessionEvent se) {
+    public void sessionCreated(HttpSessionEvent sessionEvent) {
+        ServletContext context = sessionEvent.getSession().getServletContext();
+        context.setAttribute(LOCALES, LocaleManager.INSTANCE.getLocales());
 
+        Locale.setDefault(Locale.ENGLISH);
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {

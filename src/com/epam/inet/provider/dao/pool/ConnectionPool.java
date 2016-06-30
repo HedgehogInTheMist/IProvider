@@ -61,7 +61,7 @@ public class ConnectionPool implements Pool<Connection>{
      * Get single instance
      * @return
      */
-    public static ConnectionPool getInstance() throws ConnectionPoolException{
+    public static ConnectionPool getInstance() throws ConnectionPoolException {
 
         lock.lock();
         if (null == instance){
