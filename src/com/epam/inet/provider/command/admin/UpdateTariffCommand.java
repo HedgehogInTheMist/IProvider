@@ -1,17 +1,15 @@
 package com.epam.inet.provider.command.admin;
 
-import com.epam.inet.provider.command.util.TariffBuilder;
 import com.epam.inet.provider.command.AdminCommand;
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.TariffDao;
-import com.epam.inet.provider.entity.Tariff;
-import com.epam.inet.provider.entity.TariffType;
 import com.epam.inet.provider.command.exception.BuildException;
 import com.epam.inet.provider.command.exception.CommandException;
+import com.epam.inet.provider.command.util.TariffBuilder;
+import com.epam.inet.provider.dao.DaoFactory;
+import com.epam.inet.provider.dao.TariffDao;
 import com.epam.inet.provider.dao.exception.DaoException;
+import com.epam.inet.provider.entity.Tariff;
+import com.epam.inet.provider.entity.TariffType;
 import com.epam.inet.provider.resource.LocaleManager;
-import com.epam.inet.provider.resource.MsgManager;
-import com.epam.inet.provider.service.TariffService;
 import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -37,7 +35,8 @@ public class UpdateTariffCommand extends AdminCommand {
         Locale locale = LocaleManager.INSTANCE.resolveLocale(request);
         DaoFactory daoFactory = DaoFactory.getDaoFactory();
         TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
-        Tariff tariff = null;
+        TariffBuilder tariffBuilder;
+        Tariff tariff;
         int id;
         try {
             id = Integer.parseInt(request.getParameter(ID));
@@ -47,26 +46,28 @@ public class UpdateTariffCommand extends AdminCommand {
         if (request.getParameter(PARAMETER_SUBMIT) != null) {
             tariff = new Tariff();
             tariff.setId(id);
-            TariffBuilder tariffBuilder = new TariffBuilder();
+            tariffBuilder = new TariffBuilder();
             try {
                 tariffBuilder.build(request.getParameterMap(), tariff);
                 if (tariffService.updateTariffPlan(tariff)) {
                     List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
-                    request.setAttribute(PARAMETER_TARIFF, tariffs);
+                    request.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
                     return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
                 }
             } catch (BuildException e) {
-                LOGGER.info(MsgManager.getProperty(MESSAGE_INVALID_UPDATE_DATA));
-                throw new CommandException(MsgManager.getProperty(MESSAGE_INVALID_UPDATE_DATA), e);
+                LOGGER.info(MESSAGE_INVALID_UPDATE_DATA);
+                throw new CommandException(MESSAGE_INVALID_UPDATE_DATA, e);
             } catch (ServiceException e) {
-                throw new CommandException(e);
+                throw new CommandException(MESSAGE_INVALID_UPDATE_DATA);
             }
         } else {
             try {
                 tariff = tariffDao.findById(id);
             } catch (DaoException e) {
-                throw new CommandException(e);
+//                throw new CommandException(e);
+                return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
             }
+
         }
         request.setAttribute(ATTRIBUTE_TARIFF, tariff);
         return pathManager.getString(PATH_ADMIN_UPDATE_TARIFF);

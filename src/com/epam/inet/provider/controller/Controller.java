@@ -4,6 +4,7 @@ import com.epam.inet.provider.command.ActionCommand;
 import com.epam.inet.provider.command.CommandHelper;
 import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.resource.PathManager;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -32,11 +33,15 @@ public class Controller extends HttpServlet {
 	public void init() throws ServletException {
 		try{
 /*            String prefix =  getServletContext().getRealPath("/");
-            String file = getInitParameter("properties/log4j");
+            String file = getInitParameter("../../properties/log4j");
             // if the log4j-init-file is not set, then no point in trying
             if(file != null) {
                 PropertyConfigurator.configure(prefix+file);
             }*/
+
+            BasicConfigurator.configure();
+//            PropertyConfigurator.configure(PathManager.INSTANCE.getString("properties/log4j"));
+
 //            PropertyConfigurator.configure(PathManager.INSTANCE.getString("properties/log4j"));
 			errorPagePath = PathManager.INSTANCE.getString(PATH_ERROR_500_PAGE);
 		} catch (MissingResourceException e){

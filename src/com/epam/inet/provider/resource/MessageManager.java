@@ -35,7 +35,7 @@ public enum MessageManager {
                 lastLocale = locale;
             }
         } catch (MissingResourceException e){
-            return "???? " + key + " ????";
+            return "!!!! " + key + " !!!!";
         }
         return bundle.getString(key);
     }

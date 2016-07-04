@@ -1,16 +1,11 @@
 package com.epam.inet.provider.command.client;
 
 import com.epam.inet.provider.command.ClientCommand;
+import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
-import com.epam.inet.provider.resource.PathManager;
-import com.epam.inet.provider.service.AuthenticationService;
-import com.epam.inet.provider.service.ClientService;
-import com.epam.inet.provider.service.OrderService;
 import com.epam.inet.provider.resource.LocaleManager;
-import com.epam.inet.provider.service.TariffService;
+import com.epam.inet.provider.service.AuthenticationService;
 import com.epam.inet.provider.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +22,7 @@ import static com.epam.inet.provider.util.Constants.*;
  */
 public class OrderCommand extends ClientCommand {
     public static final String PARAMETER_VALUE_CONFIRM_ORDER = "yes";
+    public static final String ORDER_COMPLETE = "/OrderComplete";
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         User user = AuthenticationService.user(request);
@@ -50,7 +46,7 @@ public class OrderCommand extends ClientCommand {
                 boolean result = orderService.clientOrders(user, tariff, amount);
                 if (result){
 //                    response.sendRedirect(PathManager.INSTANCE.getString(PATH_CLIENT_COMPLETE));
-                    response.sendRedirect("/OrderComplete");
+                    response.sendRedirect(ORDER_COMPLETE);
                     return null;
                 }
             }

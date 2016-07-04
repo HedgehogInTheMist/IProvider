@@ -1,19 +1,13 @@
 package com.epam.inet.provider.command;
 
 import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.OrderDao;
-import com.epam.inet.provider.dao.TariffDao;
-import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.entity.Order;
 import com.epam.inet.provider.entity.Role;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.resource.LocaleManager;
-import com.epam.inet.provider.resource.MessageManager;
 import com.epam.inet.provider.resource.MsgManager;
 import com.epam.inet.provider.service.AuthenticationService;
-import com.epam.inet.provider.service.OrderService;
-import com.epam.inet.provider.service.TariffService;
 import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -68,7 +62,7 @@ public class LoginCommand extends ActionCommand {
                 HttpSession session = request.getSession();
                 session.setAttribute(AuthenticationService.PARAMETER_SESSION_USER, user);
                 LOGGER.info(LOG_MSG_SUCCESS_AUTH + login);
-                session.setAttribute(ATTRIBUT_SUCCESS_AUTH, MessageManager.INSTANCE.getMessage("info.auth.success", locale));
+                session.setAttribute(ATTRIBUT_SUCCESS_AUTH, MsgManager.getProperty("info.auth.success"));
                 if (user.getRole().getRolename().equals(Role.ROLE_ADMIN)) {
                     List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
                     session.setAttribute(ATTRIBUTE_TARIFFS, tariffs);

@@ -1,11 +1,10 @@
 package com.epam.inet.provider.filter;
 
-import com.epam.inet.provider.command.CommandHelper;
-import com.epam.inet.provider.service.AuthenticationService;
 import com.epam.inet.provider.command.ActionCommand;
+import com.epam.inet.provider.command.CommandHelper;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.resource.PathManager;
-import org.apache.log4j.LogManager;
+import com.epam.inet.provider.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -20,7 +19,8 @@ import java.io.IOException;
 public class CommandAccessFilter implements Filter {
 
     private PathManager pathManager = PathManager.INSTANCE;
-    private static final Logger LOGGER = LogManager.getLogger(CommandAccessFilter.class);
+//    private static final Logger LOGGER = LogManager.getLogger(CommandAccessFilter.class);
+    private Logger LOGGER = Logger.getRootLogger();
 
     public void destroy() {
     }

@@ -356,7 +356,7 @@ public class TariffDao extends AbstractDao<Integer, Tariff> {
         int hot = set.getInt(TARIFF_HOT);
         tariff.setHot(hot == 1);
 
-        tariff.setPrice(set.getInt(TARIFF_PRICE));
+        tariff.setPrice(set.getDouble(TARIFF_PRICE));
         tariff.setTariffname(set.getString(TARIFF_NAME));
         tariff.setRegularDiscount(set.getInt(TARIFF_REGULAR_DISCOUNT));
 

@@ -35,7 +35,7 @@ public class UserDao extends AbstractDao<Integer, User> {
 //    private static final String USER_NOT_FOUND = "User not found";
 
     private static final String SQL_FIND_BY_LOGIN = "SELECT id, username, role_id from user where username=?";
-    private static final String SQL_ADD_USER = "INSERT INTO `ifuture_provid`.`user` (`username`, `password`, `role_id`) VALUES (?, ?, ?)";
+    private static final String SQL_ADD_USER = "INSERT INTO `ifuture_provider`.`user` (`username`, `password`, `role_id`) VALUES (?, ?, ?)";
     private static final String SQL_QUERY = "SELECT client_info.is_regular FROM user  LEFT JOIN client_info ON user.id = client_info.user_id WHERE user.id = ?";
     private static final String SQL_ERROR = "Sql error";
     private static final String NO_CONNECTION_MESSAGE = "Unable to get connection";
@@ -135,7 +135,6 @@ public class UserDao extends AbstractDao<Integer, User> {
      */
     public User findByLoginAndPassword(String login, String password) throws DaoException {
         User user = null;
-
         if (login != null && password != null) {
             ConnectionPool connectionPool = null;
             try {
