@@ -25,15 +25,16 @@ public class TariffService extends Service {
         try {
             return tariffDao.findById(id);
         } catch (DaoException e) {
-//            LOGGER.info(MsgManager.getProperty(LOG_MSG_TARIFF_SERVICE), e);
             LOGGER.info(LOG_MSG_TARIFF_SERVICE, e);
             throw new ServiceException(EXC_MSG_WRONG_DAO_DATA, e);
         }
     }
 
     public List<Tariff> fetchAllTariffPlans() throws ServiceException {
+        List<Tariff> list;
         try {
-            return tariffDao.findAll();
+            list = tariffDao.findAll();
+            return list;
         } catch (DaoException e) {
             LOGGER.info(LOG_MSG_TARIFF_SERVICE, e);
             throw new ServiceException(EXC_MSG_WRONG_DAO_DATA, e);
@@ -46,9 +47,7 @@ public class TariffService extends Service {
                     return true;
                 }
         } catch (DaoException e) {
-//            LOGGER.info(MsgManager.getProperty(LOG_MSG_TARIFF_SERVICE), e);
             LOGGER.info(LOG_MSG_TARIFF_SERVICE, e);
-//            throw new ServiceException(MsgManager.getProperty(EXC_MSG_WRONG_DAO_DATA), e);
             throw new ServiceException(EXC_MSG_WRONG_DAO_DATA, e);
         }
         throw new ServiceException(EXC_MSG_WRONG_DAO_DATA);
@@ -61,6 +60,18 @@ public class TariffService extends Service {
             LOGGER.info(LOG_MSG_TARIFF_SERVICE, e);
             throw new ServiceException(EXC_MSG_WRONG_DAO_DATA, e);
         }
+    }
+
+    public boolean createNewTariff(Tariff newTariff) throws ServiceException {
+        try {
+            if (tariffDao.create(newTariff)) {
+                return true;
+            }
+        } catch (DaoException e) {
+            LOGGER.info(LOG_MSG_TARIFF_SERVICE, e);
+            throw new ServiceException(EXC_MSG_WRONG_DAO_DATA, e);
+        }
+        throw new ServiceException(EXC_MSG_WRONG_DAO_DATA);
     }
 
 

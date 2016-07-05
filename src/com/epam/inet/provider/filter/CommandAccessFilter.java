@@ -1,10 +1,11 @@
 package com.epam.inet.provider.filter;
 
 import com.epam.inet.provider.command.ActionCommand;
-import com.epam.inet.provider.command.CommandHelper;
+import com.epam.inet.provider.command.CommandFactory;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.resource.PathManager;
 import com.epam.inet.provider.service.AuthenticationService;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -17,10 +18,9 @@ import java.io.IOException;
  * Created by Hedgehog on 22.04.2016.
  */
 public class CommandAccessFilter implements Filter {
-
+    private static final String ERROR_403_PAGE = "path.error403";
     private PathManager pathManager = PathManager.INSTANCE;
-//    private static final Logger LOGGER = LogManager.getLogger(CommandAccessFilter.class);
-    private Logger LOGGER = Logger.getRootLogger();
+    private static final Logger LOGGER = LogManager.getLogger(CommandAccessFilter.class);
 
     public void destroy() {
     }
@@ -38,11 +38,12 @@ public class CommandAccessFilter implements Filter {
      */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
 
-        CommandHelper commandHelper = CommandHelper.INSTANCE;
+        CommandFactory commandFactory = CommandFactory.getCommandFactory();
+
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        ActionCommand command = commandHelper.getCommand(request);
+        ActionCommand command = commandFactory.getCommand(request);
 
         User user = AuthenticationService.user(request);
 
@@ -51,7 +52,7 @@ public class CommandAccessFilter implements Filter {
         } else{
             response.setStatus(403);
             LOGGER.error(String.format("Access denied for %s to the following command: %s", (user != null) ? user : "anonymous user", command));
-            request.getRequestDispatcher(pathManager.getString("path.error403")).forward(req, resp);
+            request.getRequestDispatcher(pathManager.getString(ERROR_403_PAGE)).forward(req, resp);
         }
     }
 

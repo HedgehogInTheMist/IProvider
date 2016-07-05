@@ -28,11 +28,6 @@ public class ApplicationListener implements ServletContextListener,
 
     public void contextInitialized(ServletContextEvent sce) {
 
-    /*    ServletContext context = sce.getServletContext();
-        context.setAttribute(LOCALES, LocaleManager.INSTANCE.getLocales());
-
-        Locale.setDefault(Locale.ENGLISH);*/
-
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

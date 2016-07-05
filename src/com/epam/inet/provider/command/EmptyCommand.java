@@ -1,7 +1,7 @@
 package com.epam.inet.provider.command;
 
-import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.command.exception.CommandException;
+import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.resource.PathManager;
 
 import javax.servlet.ServletException;
@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.epam.inet.provider.util.Constants.*;
+import static com.epam.inet.provider.util.Constants.PATH_MAIN_PAGE;
 
 /**
  * This command is used if empty or wrong command is specified
  */
-public class EmptyCommand extends ActionCommand{
+public class EmptyCommand extends ActionCommand {
 
     @Override
     public boolean checkAccess(User user) {
@@ -23,7 +23,8 @@ public class EmptyCommand extends ActionCommand{
 
     /**
      * default command that render main page
-     * @param request request to read the command from
+     *
+     * @param request  request to read the command from
      * @param response response
      * @return path
      * @throws ServletException

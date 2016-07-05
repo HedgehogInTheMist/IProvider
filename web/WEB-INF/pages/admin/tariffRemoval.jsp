@@ -18,8 +18,7 @@
 
 <div class="content">
     <div class="order-complete">
-        <h1><fmt:message key="tariff.added.success.title"/></h1>
-        <p><fmt:message key="tariff.added.success.message">
+        <p><fmt:message key="tariff.removed.success.message">
             <fmt:param value="${tariff.tariffname}"/>
             <fmt:param value="${tariffTypes}"/>
         </fmt:message>

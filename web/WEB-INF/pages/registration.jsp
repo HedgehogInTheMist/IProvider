@@ -29,7 +29,7 @@
     <div class="err" style="color:red">${errorRegistrationMessage}</div>
     </p>
 
-
+    <p align="center">Заполните форму (все поля  обязательны)</p>
     <form name="RegistrationForm" method="post" action="ifuture">
         <input type="hidden" name="action" value="registration"/>
 
@@ -55,13 +55,13 @@
         </c:if>
 
         <p align="center"><fmt:message key="registration.user.login"/>:<br>
-            <input type="text" name="login" value="${lastEnteredLogin}"/>
+            <input type="text" pattern="^[A-Za-zАА-Яа-яЁё\s0-9{3,}]+" title="Только буквы латинского, русского алфавитов и цифры" name="login" value="${lastEnteredLogin}"/>
 
 
             <br><br><fmt:message key="registration.user.password"/>:<br>
-            <input type="password" name="password" value=""/>
+            <input type="password" pattern="^[A-Za-zАА-Яа-яЁё\s0-9{5,}]+" title="Только буквы латинского, русского алфавитов и цифры" name="password" value=""/>
             <br><br><fmt:message key="registration.password.repeat"/>:<br>
-            <input type="password" name="confirmPassword" value=""/>
+            <input type="password" pattern="^[A-Za-zАА-Яа-яЁё\s0-9{5,}]+" title="Только буквы латинского, русского алфавитов и цифры" name="confirmPassword" value=""/>
             <br></p>
         <%--<div class="err">${errorRegistrationMessage}</div>--%>
         <p align="center">

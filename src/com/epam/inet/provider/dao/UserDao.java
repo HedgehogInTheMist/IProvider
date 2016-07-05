@@ -5,7 +5,7 @@ import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.dao.pool.ConnectionPool;
 import com.epam.inet.provider.entity.Role;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.resource.MsgManager;
+import com.epam.inet.provider.resource.MessageManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 
@@ -363,9 +363,9 @@ public class UserDao extends AbstractDao<Integer, User> {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 user = buildUser(resultSet);
-                LOGGER.info(MsgManager.getProperty(LOGGER_MSG_USER_FIND_BY_LOGIN));
+                LOGGER.info(MessageManager.getProperty(LOGGER_MSG_USER_FIND_BY_LOGIN));
             } else {
-                LOGGER.info(MsgManager.getProperty(LOGGER_MSG_USER_FIND_BY_LOGIN_NOT_FOUND) + username);
+                LOGGER.info(MessageManager.getProperty(LOGGER_MSG_USER_FIND_BY_LOGIN_NOT_FOUND) + username);
             }
         } catch (SQLException e) {
             LOGGER.info(DAO_ERROR_FETCH_USER_BY_LOGIN);

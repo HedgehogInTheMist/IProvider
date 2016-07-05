@@ -6,7 +6,6 @@ import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.dao.exception.ConnectionPoolException;
 import com.epam.inet.provider.dao.exception.DaoException;
-import com.epam.inet.provider.resource.MsgManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

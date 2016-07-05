@@ -18,10 +18,7 @@ import static com.epam.inet.provider.util.Constants.*;
 public class OrdersCommand extends AdminCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        List<Order> orders = null;
-//        OrderService orderService = OrderService.getInstance(); ///
-
-//        OrderDao dao = OrderDao.getInstance();
+        List<Order> orders;
         if (request.getParameter(ID) != null && request.getParameter(PARAMETER_PAID) != null){
             try{
                 int id = Integer.parseInt(request.getParameter(ID));
@@ -32,7 +29,6 @@ public class OrdersCommand extends AdminCommand {
             }
         }
         try {
-//            orders = dao.findAll();
             orders = orderService.fetchAllOrders();
             request.setAttribute(ATTRIBUTE_ORDERS, orders);
         } catch (ServiceException e) {

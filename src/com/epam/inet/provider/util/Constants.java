@@ -22,8 +22,10 @@ public final class Constants {
     public static final String MESSAGE_DB_CREATE_SUCCESS = "info.db.create_success";
     public static final String MESSAGE_INVALID_DATA = "add_tariff.invalid_form_data";
     public static final String MESSAGE_INVALID_EXCEPTION = "add_tariff.invalid_form_data";
+    public static final String MESSAGE_INVALID_REDIRECT_PAGE = "Invalid redirect page after base modification";
     public static final String MESSAGE_INVALID_UPDATE_DATA = "Some fields are inconsistent. Correct them, and repeat";
     public static final String PATH_TO_SUPPLEMENT_DONE = "/SupplementDone";
+    public static final String PATH_TO_REMOVAL_DONE = "/RemovalDone";
 
     // Delete command
     public static final String ID = "id";
@@ -113,6 +115,7 @@ public final class Constants {
     public static final String DAO_ERROR_FETCH_ALL_ORDERS = "Dao method couldn't perform sql query for fetching all orders";
     public static final String SERVICE_ERROR_ORDERS = "Service tier couldn't perform creating new order function";
     public static final String LOGGER_SERVICE_ORDER_ERROR = "Invalid data from Dao tier. ServiceOrder couldn't perform";
+    public static final String EXC_SERVICE_ERROR = "Error on Service tier";
     public static final String LOG_MSG_SERVICE_ERROR = "Invalid data's come from DAO. Service couldn't perform";
     public static final String ERROR_CLOSING_STATEMENT = "Error during closing Prepared Statement object";
     public static final String ERROR_CLOSING_RESULT_SET = "Error during closing Result Set object";

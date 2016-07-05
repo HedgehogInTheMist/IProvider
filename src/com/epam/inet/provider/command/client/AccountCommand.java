@@ -1,19 +1,19 @@
 package com.epam.inet.provider.command.client;
 
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.service.AuthenticationService;
 import com.epam.inet.provider.command.ClientCommand;
-import com.epam.inet.provider.dao.OrderDao;
+import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.entity.Order;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
+import com.epam.inet.provider.service.AuthenticationService;
+import com.epam.inet.provider.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-import static com.epam.inet.provider.util.Constants.*;
+import static com.epam.inet.provider.util.Constants.ATTRIBUTE_ORDERS;
+import static com.epam.inet.provider.util.Constants.EXC_MSG_WRONG_DAO_DATA;
+import static com.epam.inet.provider.util.Constants.PATH_CLIENT_ACCOUNT_PAGE;
 
 /**
  * Performes view list of orders made by client
@@ -24,16 +24,12 @@ public class AccountCommand extends ClientCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         User user = AuthenticationService.user(request);
-
+        List<Order> orders;
         try {
-            DaoFactory daoFactory = DaoFactory.getDaoFactory();
-            OrderDao orderDao = (OrderDao) daoFactory.getDao(DaoFactory.DaoType.ORDER_DAO);
-            List<Order> orders = orderDao.findOrdersForUser(user);
-
-//            List<Order> orders = OrderDao.getInstance().findOrdersForUser(user);
+            orders = orderService.fetchAllOrdersForUser(user);
             request.setAttribute(ATTRIBUTE_ORDERS, orders);
-        } catch (DaoException e) {
-            throw new CommandException(e);
+        } catch (ServiceException e) {
+            throw new CommandException(EXC_MSG_WRONG_DAO_DATA + " " + e);
         }
         return pathManager.getString(PATH_CLIENT_ACCOUNT_PAGE);
     }

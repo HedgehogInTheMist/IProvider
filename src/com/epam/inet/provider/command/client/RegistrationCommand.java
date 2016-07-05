@@ -1,12 +1,10 @@
 package com.epam.inet.provider.command.client;
 
 import com.epam.inet.provider.command.ActionCommand;
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.UserDao;
-import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
-import com.epam.inet.provider.resource.MsgManager;
+import com.epam.inet.provider.entity.User;
+import com.epam.inet.provider.resource.MessageManager;
+import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +19,7 @@ import static com.epam.inet.provider.util.Constants.*;
 public class RegistrationCommand extends ActionCommand {
 
     private static final Logger LOGGER = Logger.getRootLogger();
-    User user = null;
-    UserDao userDao = null;
+    User user;
 
     /**
      * Everyone allowed to register in the system.
@@ -40,27 +37,22 @@ public class RegistrationCommand extends ActionCommand {
         String page = null;
         user = new User();
 
-        DaoFactory daoFactory = DaoFactory.getDaoFactory();
-        UserDao userDao = (UserDao) daoFactory.getDao(DaoFactory.DaoType.USER_DAO);
-//        userDao = UserDao.getInstance();
-
         HttpSession session = request.getSession();
         if (buildNewUser(request)) {
             try {
-                if (userDao.findUserByLogin(user.getUsername()) == null) {
-                    userDao.create(user);
-                    session.setAttribute(PARAMETER_USER_CREATED, MsgManager.getProperty(MSG_USER_CREATED));
-                    LOGGER.info(MsgManager.getProperty(LOGGER_MSG_COMMAND_USER_REGISTERED) + user.getUsername());
+                if (clientService.fetchUserByLogin(user.getUsername()) == null) {
+                    clientService.createNewUser(user);
+                    session.setAttribute(PARAMETER_USER_CREATED, MessageManager.getProperty(MSG_USER_CREATED));
+                    LOGGER.info(MessageManager.getProperty(LOGGER_MSG_COMMAND_USER_REGISTERED) + user.getUsername());
                     page = pathManager.getString(PATH_LOGIN_PAGE);
                 } else {
                     page = pathManager.getString(PATH_PAGE_REGISTRATION);
-                    session.setAttribute(PARAMETER_USER_EXIST, MsgManager.getProperty(MSG_USER_EXIST));
-                    LOGGER.info(MsgManager.getProperty(MSG_USER_EXIST));
+                    session.setAttribute(PARAMETER_USER_EXIST, MessageManager.getProperty(MSG_USER_EXIST));
+                    LOGGER.info(MessageManager.getProperty(MSG_USER_EXIST));
                 }
-            } catch (DaoException e) {
-                LOGGER.error(LOGGER_MSG_REGISTRATION_COMMAND_ERROR);
+            } catch (ServiceException e) {
                 page = pathManager.getString(PATH_ERROR_PAGE);
-                return page;
+                throw new CommandException(e);
             }
         } else {
             page = pathManager.getString(PATH_PAGE_REGISTRATION);
@@ -92,12 +84,12 @@ public class RegistrationCommand extends ActionCommand {
     private boolean buildLogin(HttpServletRequest request) {
         boolean isBuilt = false;
         String login = request.getParameter(PARAMETER_REGISTRATION_LOGIN);
-        if (login.matches(MsgManager.getProperty(PATTERN_LOGIN))) {
+        if (login.matches(MessageManager.getProperty(PATTERN_LOGIN))) {
             user.setUsername(login);
             isBuilt = true;
         } else {
-            request.setAttribute(PARAMETER_INCORRECT_LOGIN, MsgManager.getProperty(MSG_INCORRECT_LOGIN));
-            LOGGER.debug(MsgManager.getProperty(MSG_INCORRECT_LOGIN));
+            request.setAttribute(PARAMETER_INCORRECT_LOGIN, MessageManager.getProperty(MSG_INCORRECT_LOGIN));
+            LOGGER.debug(MessageManager.getProperty(MSG_INCORRECT_LOGIN));
         }
         return isBuilt;
     }
@@ -112,17 +104,17 @@ public class RegistrationCommand extends ActionCommand {
         boolean isBuilt = false;
         String password = request.getParameter(PARAMETER_REGISTRATION_PASSWORD);
         String confirmPassword = request.getParameter(PARAMETER_CONFIRM_PASSWORD);
-        if (password != null && password.matches(MsgManager.getProperty(PATTERN_PASSWORD))) {
+        if (password != null && password.matches(MessageManager.getProperty(PATTERN_PASSWORD))) {
             if (password.equals(confirmPassword)) {
                 user.setPassword(password);
                 isBuilt = true;
             } else {
-                request.setAttribute(PARAMETER_NONCONFIRMED_PASSWORD, MsgManager.getProperty(MSG_NONCONFIRMED_PASSWORD));
-                LOGGER.debug(MsgManager.getProperty(MSG_NONCONFIRMED_PASSWORD));
+                request.setAttribute(PARAMETER_NONCONFIRMED_PASSWORD, MessageManager.getProperty(MSG_NONCONFIRMED_PASSWORD));
+                LOGGER.debug(MessageManager.getProperty(MSG_NONCONFIRMED_PASSWORD));
             }
         } else {
-            request.setAttribute(PARAMETER_INCORRECT_PASSWORD, MsgManager.getProperty(MSG_INCORRECT_PASSWORD));
-            LOGGER.debug(MsgManager.getProperty(MSG_INCORRECT_PASSWORD));
+            request.setAttribute(PARAMETER_INCORRECT_PASSWORD, MessageManager.getProperty(MSG_INCORRECT_PASSWORD));
+            LOGGER.debug(MessageManager.getProperty(MSG_INCORRECT_PASSWORD));
         }
         return isBuilt;
     }

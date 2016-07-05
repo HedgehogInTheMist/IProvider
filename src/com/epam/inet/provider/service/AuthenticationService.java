@@ -32,12 +32,11 @@ public class AuthenticationService extends Service {
      * @throws ServiceException
      */
     public User authenticate(String login, String password) throws ServiceException {
+        User user;
         if (login != null && password != null){
             String hash = DigestUtils.md5Hex(password);
-//            UserDao dao = UserDao.getInstance();
-
             try {
-                User user = userDao.findByLoginAndPassword(login, hash);
+                user = userDao.findByLoginAndPassword(login, hash);
 				return user;
             } catch (DaoException e) {
                 LOGGER.info(EXC_SERVICE_ERROR_AUTHENTIFICATION, e);

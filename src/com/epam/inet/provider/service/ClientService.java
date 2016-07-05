@@ -34,5 +34,23 @@ public class ClientService extends Service {
         return false;
     }
 
+    public User fetchUserByLogin(String userLogin) throws ServiceException {
+        try {
+            return userDao.findUserByLogin(userLogin);
+        } catch (DaoException e) {
+            throw new ServiceException(EXC_SERVICE_ERROR_MSG);
+        }
+    }
+
+    public boolean createNewUser(User newUser) throws ServiceException {
+        try {
+            if(userDao.create(newUser)) {
+                return true;
+            } else return false;
+        } catch (DaoException e) {
+            throw new ServiceException(EXC_SERVICE_ERROR);
+        }
+    }
+
 
 }

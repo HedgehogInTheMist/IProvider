@@ -9,6 +9,8 @@
 <html>
 <head>
 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -24,7 +26,7 @@
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/jquery.js"></script>
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         $(document).ready(function(){
             $('.btn-delete').click(function(){
                 if (confirm ('<fmt:message key="admin.manager.delete"/>')){
@@ -33,17 +35,19 @@
                 return false;
             })
         });
-    </script>
+    </script>--%>
+    <%--<script src="js/jquery-1.12.3.min.js"></script>--%>
+    <script type="text/javascript" src="/js/removalValidation.js"></script>
+    <script type="text/javascript" src="/js/tariffDetailsValidation.js"></script>
+
+
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/tariffDetailsValidation.js"></script>
 </head>
 <body>
 
 <%@include file="/WEB-INF/jspf/header.jspf"%>
 
 <div class="content">
-
-    <%--<c:if test="${not empty user}">
-        <p><fmt:message key="info.auth.success"/> </p>
-    </c:if>--%>
 
 
     <div class="actions">

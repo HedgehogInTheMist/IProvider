@@ -1,9 +1,7 @@
 package com.epam.inet.provider.command;
 
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.UserDao;
-import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.command.exception.CommandException;
+import com.epam.inet.provider.entity.User;
 import com.epam.inet.provider.resource.PathManager;
 import com.epam.inet.provider.service.*;
 
@@ -31,6 +29,7 @@ public abstract class ActionCommand {
     /**
      * Check the access of user, return true if the userIn has access to
      * this command, otherwise return false
+     *
      * @param user can be null
      * @return
      */
@@ -41,7 +40,7 @@ public abstract class ActionCommand {
      * and processes it. The result will be given as
      * a forward page
      *
-     * @param request request to read the command from
+     * @param request  request to read the command from
      * @param response
      * @return forward page
      */

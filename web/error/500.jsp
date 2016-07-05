@@ -20,6 +20,7 @@
     <a href="${pageContext.request.contextPath}/index.jsp?lang=${locale}">${back}</a>
 
 
+<%--
      error tracing
     <h4>Error:</h4>
     <p>${pageContext.exception}</p>
@@ -31,5 +32,6 @@
                items="${pageContext.exception.stackTrace}">
         <p>${trace}</p>
     </c:forEach>
+--%>
 </body>
 </html>

@@ -4,12 +4,8 @@ import com.epam.inet.provider.command.AdminCommand;
 import com.epam.inet.provider.command.exception.BuildException;
 import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.command.util.TariffBuilder;
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.TariffDao;
-import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.TariffType;
-import com.epam.inet.provider.resource.LocaleManager;
 import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -17,7 +13,6 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Locale;
 
 import static com.epam.inet.provider.util.Constants.*;
 
@@ -32,9 +27,6 @@ public class UpdateTariffCommand extends AdminCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         request.setAttribute(ATTRIBUTE_TARIFF_TYPE, TariffType.values());
-        Locale locale = LocaleManager.INSTANCE.resolveLocale(request);
-        DaoFactory daoFactory = DaoFactory.getDaoFactory();
-        TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
         TariffBuilder tariffBuilder;
         Tariff tariff;
         int id;
@@ -62,12 +54,10 @@ public class UpdateTariffCommand extends AdminCommand {
             }
         } else {
             try {
-                tariff = tariffDao.findById(id);
-            } catch (DaoException e) {
-//                throw new CommandException(e);
-                return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
+                tariff = tariffService.fetchTariffPlanById(id);
+            } catch (ServiceException e) {
+                throw new CommandException(MESSAGE_INVALID_UPDATE_DATA + " " + e);
             }
-
         }
         request.setAttribute(ATTRIBUTE_TARIFF, tariff);
         return pathManager.getString(PATH_ADMIN_UPDATE_TARIFF);

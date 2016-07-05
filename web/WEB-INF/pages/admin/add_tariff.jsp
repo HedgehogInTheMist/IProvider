@@ -10,6 +10,11 @@
 <head>
     <title><fmt:message key="add_tariff.title"/></title>
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css"/>
+    <%--<script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/tariffDetailsValidation.js"></script>--%>
+
+
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="/js/tariffDetailsValidation.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>

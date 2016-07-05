@@ -1,12 +1,12 @@
 <form method="post">
     <div class="form-row">
         <label for="tariffname"><fmt:message key="tariff_form.tariffname"/></label>
-        <input id="tariffname" name="tariffname" type="text" value="${tariff.tariffname}">
+        <input type="text" id="tariffname" name="tariffname" value="${tariff.tariffname}"/>
     </div>
 
     <div class="form-row">
         <label for="type"><fmt:message key="tariff_form.type"/></label>
-        <select id="type" name="type">
+        <select id="type" name="type" required>
             <c:forEach var="type" items="${tariffTypes}">
                 <option value="${type.id}" <c:if test="${type.id eq tariff.type.id}"> selected</c:if>>${type}</option>
             </c:forEach>
@@ -16,7 +16,7 @@
 
     <div class="form-row">
         <label for="details"><fmt:message key="tariff_form.details"/></label>
-        <textarea rows="15" id="details" name="details">${tariff.details}</textarea>
+        <textarea maxlength="10000" rows="20" id="details" required pattern="^[A-Za-zА-Яа-яЁё\s0-9!%',.]+" name="details">${tariff.details}</textarea>
     </div>
 
     <div class="form-row">
@@ -34,12 +34,12 @@
             </c:otherwise>
         </c:choose>
         <label for="price"><fmt:message key="tariff_form.price"/></label>
-        <input id="price" type="number" name="price" value="${price}" step="0.01"/>
+        <input id="price" type="number" name="price" value="${price}" min="0.01" max="10000000" step="0.01" required/>
     </div>
 
     <div class="form-row">
         <label for="discount"><fmt:message key="tariff_form.discount"/>(%)</label>
-        <input id="discount" type="number" name="regular_discount" value="${tariff.regularDiscount}"/>
+        <input id="discount" type="number" name="regular_discount" value="${tariff.regularDiscount}" min="0" step="1"/>
     </div>
 
     <input class="ml135px btn" name="submit" type="submit" value="<fmt:message key="form_submit"/>"/>

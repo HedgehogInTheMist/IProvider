@@ -5,8 +5,7 @@ import com.epam.inet.provider.entity.Order;
 import com.epam.inet.provider.entity.Role;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.resource.LocaleManager;
-import com.epam.inet.provider.resource.MsgManager;
+import com.epam.inet.provider.resource.MessageManager;
 import com.epam.inet.provider.service.AuthenticationService;
 import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Locale;
 
 import static com.epam.inet.provider.util.Constants.*;
 
@@ -52,7 +50,6 @@ public class LoginCommand extends ActionCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
         String destinationPage = null;
-        Locale locale = LocaleManager.INSTANCE.resolveLocale(request);
         final String login = request.getParameter(PARAMETER_LOGIN);
         final String password = request.getParameter(PARAMETER_PASSWORD);
 
@@ -62,7 +59,7 @@ public class LoginCommand extends ActionCommand {
                 HttpSession session = request.getSession();
                 session.setAttribute(AuthenticationService.PARAMETER_SESSION_USER, user);
                 LOGGER.info(LOG_MSG_SUCCESS_AUTH + login);
-                session.setAttribute(ATTRIBUT_SUCCESS_AUTH, MsgManager.getProperty("info.auth.success"));
+                session.setAttribute(ATTRIBUT_SUCCESS_AUTH, MessageManager.getProperty("info.auth.success"));
                 if (user.getRole().getRolename().equals(Role.ROLE_ADMIN)) {
                     List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
                     session.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
@@ -78,8 +75,8 @@ public class LoginCommand extends ActionCommand {
             }
         }
         request.setAttribute(PARAMETER_LAST_ENTERED_LOGIN, login);
-        request.setAttribute(PARAMETER_ERROR_LOGIN, MsgManager.getProperty(MSG_ERROR_LOGIN));
-        LOGGER.debug(MsgManager.getProperty(LOGGER_MSG_INCORRECT_LOGIN));
+        request.setAttribute(PARAMETER_ERROR_LOGIN, MessageManager.getProperty(MSG_ERROR_LOGIN));
+        LOGGER.debug(MessageManager.getProperty(LOGGER_MSG_INCORRECT_LOGIN));
         destinationPage = pathManager.getString(PATH_LOGIN_PAGE);
         return destinationPage;
     }

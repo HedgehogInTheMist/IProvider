@@ -33,7 +33,7 @@ public class OrderService extends Service {
             try {
                 return orderDao.create(order);
             } catch (DaoException e) {
-                LOGGER.info(LOGGER_SERVICE_ORDER_ERROR);
+                LOGGER.info(LOGGER_SERVICE_ORDER_ERROR + " " + e);
                 throw new ServiceException(SERVICE_ERROR_ORDERS);
             }
         } else {
@@ -46,7 +46,8 @@ public class OrderService extends Service {
         try {
             return orderDao.findOrdersForUser(user);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            LOGGER.info(LOGGER_SERVICE_ORDER_ERROR + " " + e);
+            throw new ServiceException(EXC_SERVICE_ERROR);
         }
     }
 
@@ -54,7 +55,8 @@ public class OrderService extends Service {
         try {
             return orderDao.findAll();
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            LOGGER.info(LOGGER_SERVICE_ORDER_ERROR + " " + e);
+            throw new ServiceException(EXC_SERVICE_ERROR);
         }
     }
 
@@ -62,7 +64,10 @@ public class OrderService extends Service {
         try {
             orderDao.updatePaid(id, paid);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            LOGGER.info(LOGGER_SERVICE_ORDER_ERROR + " " + e);
+            throw new ServiceException(EXC_SERVICE_ERROR);
         }
     }
+
+
 }

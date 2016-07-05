@@ -1,16 +1,13 @@
 package com.epam.inet.provider.command.admin;
 
-import com.epam.inet.provider.command.util.TariffBuilder;
 import com.epam.inet.provider.command.AdminCommand;
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.TariffDao;
-import com.epam.inet.provider.entity.Tariff;
-import com.epam.inet.provider.entity.TariffType;
 import com.epam.inet.provider.command.exception.BuildException;
 import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
-import com.epam.inet.provider.resource.MsgManager;
-import com.epam.inet.provider.service.TariffService;
+import com.epam.inet.provider.command.util.TariffBuilder;
+import com.epam.inet.provider.entity.Tariff;
+import com.epam.inet.provider.entity.TariffType;
+import com.epam.inet.provider.resource.MessageManager;
+import com.epam.inet.provider.service.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 import static com.epam.inet.provider.util.Constants.*;
 
@@ -48,28 +44,18 @@ public class AddTariffCommand extends AdminCommand {
             TariffBuilder tariffBuilder = new TariffBuilder();
             try {
                 tariffBuilder.build(request.getParameterMap(), tariff);
-//                TariffDao dao = TariffDao.getInstance();
-
-                DaoFactory daoFactory = DaoFactory.getDaoFactory();
-                TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
-
-//                TariffService tariffService = TariffService.getInstance();
-//                tariffService.
-
-                if (tariffDao.create(tariff)) {
-                    LOGGER.info(MsgManager.getProperty(MESSAGE_DB_CREATE_SUCCESS));
-//                    List<Tariff> tariffs = dao.findAll();
-//                    session.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
+                if (tariffService.createNewTariff(tariff)) {
+                    LOGGER.info(MessageManager.getProperty(MESSAGE_DB_CREATE_SUCCESS));
                     session.setAttribute(ATTRIBUTE_TARIFF, tariff);
                     response.sendRedirect(PATH_TO_SUPPLEMENT_DONE);
                     return null;
                 }
             } catch (BuildException e) {
-                LOGGER.info(MsgManager.getProperty(MESSAGE_INVALID_DATA));
-            } catch (DaoException e) {
-                throw new CommandException(MsgManager.getProperty(MESSAGE_INVALID_EXCEPTION), e);
+                LOGGER.info(MessageManager.getProperty(MESSAGE_INVALID_DATA));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CommandException(MESSAGE_INVALID_REDIRECT_PAGE, e);
+            } catch (ServiceException e) {
+                throw new CommandException(MessageManager.getProperty(MESSAGE_INVALID_EXCEPTION), e);
             }
         }
         request.setAttribute(ATTRIBUTE_TARIFF, tariff);

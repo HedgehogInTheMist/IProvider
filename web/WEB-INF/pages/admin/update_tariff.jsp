@@ -11,6 +11,7 @@
     <title><fmt:message key="update_tariff.title"/></title>
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/style.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/js/tariffDetailsValidation.js"></script>
 </head>
 <body>
 

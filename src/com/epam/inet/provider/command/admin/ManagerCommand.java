@@ -1,11 +1,9 @@
 package com.epam.inet.provider.command.admin;
 
 import com.epam.inet.provider.command.AdminCommand;
-import com.epam.inet.provider.dao.DaoFactory;
-import com.epam.inet.provider.dao.TariffDao;
-import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
+import com.epam.inet.provider.entity.Tariff;
+import com.epam.inet.provider.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,16 +28,13 @@ public class ManagerCommand extends AdminCommand {
      */
     @Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-//        TariffDao dao = TariffDao.getInstance();
-
-        DaoFactory daoFactory = DaoFactory.getDaoFactory();
-        TariffDao tariffDao = (TariffDao) daoFactory.getDao(DaoFactory.DaoType.TARIFF_DAO);
+        List<Tariff> tariffs;
         try {
-            List<Tariff> tariffs = tariffDao.findAll();
+            tariffs = tariffService.fetchAllTariffPlans();
             request.setAttribute(ATTRIBUTE_TARIFFS, tariffs);
-        } catch (DaoException e) {
-            throw new CommandException(e);
+        } catch (ServiceException e) {
+            throw new CommandException(MESSAGE_INVALID_EXCEPTION, e);
         }
-		return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
+        return pathManager.getString(PATH_ADMIN_MANAGER_PAGE);
 	}
 }

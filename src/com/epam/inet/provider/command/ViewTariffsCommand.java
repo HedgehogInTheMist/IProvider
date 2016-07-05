@@ -1,13 +1,9 @@
 package com.epam.inet.provider.command;
 
-import com.epam.inet.provider.dao.TariffDao;
+import com.epam.inet.provider.command.exception.CommandException;
 import com.epam.inet.provider.entity.Tariff;
 import com.epam.inet.provider.entity.User;
-import com.epam.inet.provider.command.exception.CommandException;
-import com.epam.inet.provider.dao.exception.DaoException;
 import com.epam.inet.provider.service.AuthenticationService;
-import com.epam.inet.provider.service.ClientService;
-import com.epam.inet.provider.service.TariffService;
 import com.epam.inet.provider.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +24,8 @@ public class ViewTariffsCommand extends ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String destinationPage = null;
-//        TariffDao dao = TariffDao.getInstance();
-//        TariffService tariffService = TariffService.getInstance(); ///
+        String destinationPage;
         try {
-//            List<Tariff> tariffs = dao.findAll();
             List<Tariff> tariffs = tariffService.fetchAllTariffPlans();
             User client = AuthenticationService.user(request);
             boolean regular = clientService.isRegularClient(client);
